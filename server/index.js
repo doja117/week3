@@ -51,6 +51,11 @@ app.get('/todo',(req,resp)=>{
   })
 })
 
+app.get('/song',(req,resp)=>{
+  console.log(__dirname+"/song.mp4");
+  resp.sendFile(__dirname+"/song.mp4")
+})
+
 app.delete('/todo',(req,resp)=>{
   fs.readFile('./db.json','utf-8',(err,data)=>{
     if(err){

@@ -1,0 +1,20 @@
+<script>
+    function onPress(){
+    function parsedResponse(data){
+        console.log(data);
+    }
+    function callback(resp){
+        resp.json().then(parsedResponse)
+    }
+    fetch("http://localhost:3000/todo",{
+        method:"GET"
+    }).then(callback)}
+   
+</script>
+<body>
+    <title>ToDO</title>
+<input placeholder="name"></input>
+<input placeholder="description"></input>
+</body>
+<button onclick="onPress()">Get Data</button>
+<button>Post Data</button>
