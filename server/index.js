@@ -3,15 +3,9 @@ const express=require('express')
 const fs=require('fs')
 const app=express()
 app.use(bodyParser.json())
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // This allows any origin to access the resource. Be cautious with '*' in production.
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
 
 app.get('/',(req,resp)=>{
-  resp.send("test")
+  resp.sendFile(__dirname+"/index.html");
 })
 app.post('/todo',(req,resp)=>{
   const obj=req.body;
@@ -83,6 +77,10 @@ app.delete('/todo',(req,resp)=>{
         }
     }
   })
+})
+
+app.all('*',(req,resp)=>{
+  resp.send("no path ")
 })
 
 
