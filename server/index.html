@@ -1,7 +1,10 @@
 <script>
     function onPress(){
+   
+    //console.log(obj);
+    //console.log(title+" "+desc)
     function parsedResponse(data){
-        console.log(data);
+    console.log(data);
     }
     function callback(resp){
         resp.json().then(parsedResponse)
@@ -9,12 +12,39 @@
     fetch("http://localhost:3000/todo",{
         method:"GET"
     }).then(callback)}
+
+
+
+    function sendData(){
+        var title=document.getElementById("title").value
+        var desc=document.getElementById("desc").value
+        
+        //console.log(obj);
+        function parsedResponse(data){
+            console.log(data);
+        }   
+        function callback1(resp){
+            resp.json().then(parsedResponse)
+        }
+
+
+        fetch("http://localhost:3000/todo",{
+            headers: {
+                 'Content-Type': 'application/json'
+                },
+            method:"POST",
+            body:JSON.stringify({
+                name:document.getElementById("title").value,
+                desc:document.getElementById("desc").value  
+            })
+        }).then(callback1)
+    }
    
 </script>
 <body>
     <title>ToDO</title>
-<input placeholder="name"></input>
-<input placeholder="description"></input>
+<input placeholder="title" id="title"></input>
+<input placeholder="description" id="desc"></input>
 </body>
 <button onclick="onPress()">Get Data</button>
-<button>Post Data</button>
+<button onclick="sendData()">Post Data</button>

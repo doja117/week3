@@ -1,7 +1,9 @@
 const bodyParser = require('body-parser')
 const express=require('express')
 const fs=require('fs')
+const cors=require('cors')
 const app=express()
+app.use(cors())
 app.use(bodyParser.json())
 
 app.get('/',(req,resp)=>{
@@ -9,7 +11,7 @@ app.get('/',(req,resp)=>{
 })
 app.post('/todo',(req,resp)=>{
   const obj=req.body;
-  console.log(obj)
+
   fs.readFile('./db.json','utf-8',(err,data)=>{
     if(err){
         console.log(err);
@@ -28,7 +30,7 @@ app.post('/todo',(req,resp)=>{
             if(err){
                 console.log(err);
             } else{
-              resp.send("success")
+              resp.send(obj.data);
             }
         })}
     }
