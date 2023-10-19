@@ -6,21 +6,23 @@ import axios from 'axios';
 function App() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-
-  const sendData = () => {
-    console.log({ title, desc });
-    axios
-      .post("http://localhost:3000/todo", {
-        title,
-        desc
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+    function sendData() {
+        const obj = {
+            title,
+            description
+        }
+        fetch('http://localhost:3000/todos', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then((r) => {
+            console.log("success");
+        }).catch((e) => {
+            console.log(e);
+        })
+    }
 
   return (
     <div>

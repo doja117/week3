@@ -9,7 +9,7 @@
     function callback(resp){
         resp.json().then(parsedResponse)
     }
-    fetch("http://localhost:3000/todo",{
+    fetch("http://localhost:3000/todos",{
         method:"GET"
     }).then(callback)}
 
@@ -34,12 +34,11 @@
                 },
             method:"POST",
             body:JSON.stringify({
-                name:document.getElementById("title").value,
-                desc:document.getElementById("desc").value  
+                title:document.getElementById("title").value,
+                description:document.getElementById("desc").value  
             })
         }).then(callback1)
     }
-   
 </script>
 <body>
     <title>ToDO</title>
