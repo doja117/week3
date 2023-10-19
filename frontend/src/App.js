@@ -1,28 +1,87 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+
+
+
+
 
 function App() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
-    function sendData() {
-        const obj = {
-            title,
-            description
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const [sent,setSent]=useState(0);
+
+  const [div,setDiv]=useState();
+
+function DataDisplay() {
+    useEffect(() => {
+    fetch('http://localhost:3001/todos', {
+      method: "GET"
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
-        fetch('http://localhost:3000/todos', {
-            method: "POST",
+        return response.json();
+      })
+      .then((jsonData) => {
+        setData(jsonData);
+      })
+      .catch((e) => {
+        setError(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    setDiv((function (){
+      return (
+        <div>
+          <h1>Data Display</h1>
+          <ul>
+            {data.map((item) => (
+              <li key={item.id}>
+                {item.title} {item.description}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    })())
+   
+  }, [data,sent]);
+
+  if (error) {
+    return <div>Error in data fetching: {error.message}</div>;
+  }
+
+  return div
+
+  
+}
+
+
+      function sendData(){
+             //console.log(obj);
+            fetch("http://localhost:3001/todos",{
             headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(obj)
-        }).then((r) => {
-            console.log("success");
-        }).catch((e) => {
-            console.log(e);
+                 'Content-Type': 'application/json'
+                },
+            method:"POST",
+            body:JSON.stringify({
+                title,
+                description:desc  
+            })
+        }).then((r)=>{
+          r.json().then((d)=>{console.log(d)})
+          
         })
-    }
+    } 
+    
+   
+    
 
   return (
     <div>
@@ -42,7 +101,11 @@ function App() {
         }}
       />
       <br />
-      <button onClick={sendData}>Send Data</button>
+      <button onClick={()=>{
+        sendData()
+        setSent(sent+1)
+      }}>Send Data</button>
+        <DataDisplay />
     </div>
   );
 }

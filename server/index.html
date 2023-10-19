@@ -1,17 +1,21 @@
 <script>
     function onPress(){
-   
-    //console.log(obj);
-    //console.log(title+" "+desc)
-    function parsedResponse(data){
-    console.log(data);
+        fetch('http://localhost:3001/todos',{
+    method:"GET"
+}).then((r)=>{
+    r.json().then((d)=>{
+        d.map((t)=>{
+            return (<div><ul>
+                    <li>{t.title} {t.description}</li>
+                    </ul>
+                </div>
+                )
+        })
+    })
+})
+
+
     }
-    function callback(resp){
-        resp.json().then(parsedResponse)
-    }
-    fetch("http://localhost:3000/todos",{
-        method:"GET"
-    }).then(callback)}
 
 
 
@@ -28,7 +32,7 @@
         }
 
 
-        fetch("http://localhost:3000/todo",{
+        fetch("http://localhost:3001/todos",{
             headers: {
                  'Content-Type': 'application/json'
                 },
