@@ -5,19 +5,13 @@ import axios from 'axios';
 
 
 
-
-
-function App() {
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
+function DataDisplay() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
-  const [sent,setSent]=useState(0);
 
   const [div,setDiv]=useState();
 
-function DataDisplay() {
-    useEffect(() => {
+  useEffect(() => {
     fetch('http://localhost:3001/todos', {
       method: "GET"
     })
@@ -39,11 +33,12 @@ function DataDisplay() {
     setDiv((function (){
       return (
         <div>
-          <h1>Data Display</h1>
+          
           <ul>
             {data.map((item) => (
               <li key={item.id}>
-                {item.title} {item.description}
+                <b><h3>Title  :{" "+item.title}</h3></b>
+                 <b><h7>Description:  {item.description}</h7></b>
               </li>
             ))}
           </ul>
@@ -51,7 +46,7 @@ function DataDisplay() {
       );
     })())
    
-  }, [data,sent]);
+  }, [data]);
 
   if (error) {
     return <div>Error in data fetching: {error.message}</div>;
@@ -62,6 +57,16 @@ function DataDisplay() {
   
 }
 
+
+
+
+function App() {
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+
+  const [div,setDiv]=useState();
 
       function sendData(){
              //console.log(obj);
@@ -103,7 +108,6 @@ function DataDisplay() {
       <br />
       <button onClick={()=>{
         sendData()
-        setSent(sent+1)
       }}>Send Data</button>
         <DataDisplay />
     </div>

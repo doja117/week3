@@ -1,21 +1,44 @@
 <script>
-    function onPress(){
+    (function GetID(){
         fetch('http://localhost:3001/todos',{
     method:"GET"
 }).then((r)=>{
-    r.json().then((d)=>{
-        d.map((t)=>{
-            return (<div><ul>
-                    <li>{t.title} {t.description}</li>
-                    </ul>
-                </div>
-                )
+        r.json().then((data)=>{
+            console.log(data);
+            var parentElement=document.getElementById("mainarea")
+            data.map((d)=>{
+                var newElement=document.createElement('div')
+                var newElement1=document.createElement('span')
+                var newElement2=document.createElement('span')
+                var newElement3=document.createElement('button')
+                newElement3.textContent="Delete";
+                newElement3.addEventListener('click',deleteObj(d));
+                newElement1.innerHTML=d.title;
+                newElement2.innerHTML=d.description;
+                newElement.appendChild(newElement1);
+                newElement.appendChild(newElement2);
+                newElement.appendChild(newElement3);
+                parentElement.appendChild(newElement);
+            })
+            
+            //parentElement.innerHTML=JSON.stringify(data);
         })
+        return parentElement;
     })
-})
 
 
+    })()
+    function deleteObj(d){
+        
+                    fetch(`http://localhost:3001/todos/${d.id}`,{
+                        method:"DELETE"
+                    }).then(()=>{
+                        var parentElement=document.getElementById("mainarea")
+                        parentElement.innerHTML=getId();
+                    })
+        
     }
+    
 
 
 
@@ -24,8 +47,24 @@
         var desc=document.getElementById("desc").value
         
         //console.log(obj);
-        function parsedResponse(data){
-            console.log(data);
+        function parsedResponse(d){
+            console.log(d);
+                var parentElement=document.getElementById("mainarea")
+                var newElement=document.createElement('div')
+                var newElement1=document.createElement('span')
+                var newElement2=document.createElement('span')
+                var newElement3=document.createElement('button')
+                newElement3.textContent="Delete";
+                newElement3.addEventListener('click',deleteObj(d));
+                newElement1.innerHTML=d.title;
+                newElement2.innerHTML=d.description;
+                newElement.appendChild(newElement1);
+                newElement.appendChild(newElement2);
+                newElement.appendChild(newElement3);
+
+                parentElement.appendChild(newElement);
+
+           
         }   
         function callback1(resp){
             resp.json().then(parsedResponse)
@@ -49,5 +88,5 @@
 <input placeholder="title" id="title"></input>
 <input placeholder="description" id="desc"></input>
 </body>
-<button onclick="onPress()">Get Data</button>
 <button onclick="sendData()">Post Data</button>
+<div id="mainarea"></div>
